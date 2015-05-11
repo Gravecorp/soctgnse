@@ -26,10 +26,16 @@ namespace soctgnse
 
             treeView1.ContextMenuStrip = contextMenuStrip1;
 
+            xmlBox.ContextMenuStrip = contextMenuStrip2;
+
             DialogResult result = openFileDialog1.ShowDialog();
             if(result != DialogResult.Cancel)
             {
                 LoadDefinition(openFileDialog1.FileName);
+            }
+            else
+            {
+                Application.Exit();
             }
         }
 
@@ -52,10 +58,12 @@ namespace soctgnse
                     string name = node.Attributes["name"].Value;
                     Label l = new Label();
                     l.Text = name;
+                    l.Dock = DockStyle.Fill;
 
                     TextBox t = new TextBox();
                     t.Tag = name;
                     t.TextChanged += t_TextChanged;
+                    t.Dock = DockStyle.Fill;
 
                     inputControls.Add(t);
 
@@ -182,6 +190,11 @@ namespace soctgnse
                 doc.Save(writer);
             }
             return sb.ToString();
+        }
+
+        private void copyToClipboardToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Clipboard.SetText(xmlBox.Text);
         }
     }
 }
